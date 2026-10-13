@@ -21,7 +21,7 @@ html.ph{
   --ink:#2A1D0E;--ink-soft:#5C4527;           /* text on papyrus  (>= 6:1) */
   --sand:#F1E6C8;--sand-soft:#D8C99F;          /* text on stone    (>= 7:1) */
   /* re-map the base theme variables so untouched rules follow the palette */
-  --bg:var(--basalt);--panel:var(--papyrus);--line:rgba(212,175,55,.38);--text:var(--sand);--mute:var(--sand-soft);
+  --bg:var(--basalt);--panel:#1F1710;--line:rgba(212,175,55,.38);--text:var(--sand);--mute:var(--sand-soft);
   --font-display:'Cinzel Decorative','Cinzel',Georgia,serif;
   --font-glyph:'Noto Sans Egyptian Hieroglyphs',serif;
 
@@ -159,6 +159,68 @@ html.ph{
 .ph .story p,.ph .story li span{color:var(--sand-soft)}
 .ph .story li b{color:var(--sand)}
 .ph .story li{border-left-color:var(--gold)}
+
+/* ---- 7b. Dark stone cards for Popular Names, FAQ, and Testimonials ---- */
+.ph .popular-item,
+.ph details.faq,
+.ph .testi-card{
+  background-image:var(--noise),linear-gradient(180deg,#241b14,#16100b);
+  background-size:180px 180px,auto;
+  border:1px solid rgba(212,175,55,.38);
+  box-shadow:0 8px 24px -10px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,235,170,.08);
+}
+.ph .popular-item:hover,
+.ph details.faq:hover,
+.ph .testi-card:hover{
+  border-color:var(--gold);
+  box-shadow:0 12px 28px -10px rgba(0,0,0,.8),0 0 18px -4px rgba(212,175,55,.4);
+}
+.ph .popular-item .pop-glyph{
+  color:var(--gold-hi);
+  text-shadow:0 1px 0 #5a430c,0 2px 5px rgba(0,0,0,.7);
+}
+.ph .popular-item .pop-name{
+  color:var(--sand);
+  font-weight:600;
+  letter-spacing:.02em;
+}
+.ph details.faq summary{
+  color:var(--sand);
+  font-weight:600;
+  letter-spacing:.01em;
+}
+.ph details.faq summary::after{
+  color:var(--gold);
+  font-weight:700;
+}
+.ph details.faq[open] summary{
+  color:var(--gold-hi);
+}
+.ph details.faq .faq-body{
+  color:var(--sand-soft);
+  border-top:1px solid rgba(212,175,55,.18);
+  padding-top:14px;
+  line-height:1.7;
+}
+.ph .testi-card .stars{
+  color:var(--gold-hi);
+  text-shadow:0 0 10px rgba(212,175,55,.5);
+}
+.ph .testi-card blockquote{
+  color:var(--sand);
+}
+.ph .testi-card .author-info b{
+  color:var(--sand);
+}
+.ph .testi-card .author-info{
+  color:var(--sand-soft);
+}
+.ph .testi-card .avatar{
+  background:linear-gradient(180deg,#F3D974,#D4AF37);
+  color:#1a1410;
+  font-weight:700;
+  box-shadow:0 2px 6px rgba(0,0,0,.4);
+}
 
 /* ---- 8. Stepper ---- */
 .ph .step{color:var(--sand-soft)}

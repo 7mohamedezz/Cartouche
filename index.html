@@ -132,7 +132,7 @@ input::placeholder{color:#6f685b}
 .testi-card .author-info b{color:var(--text);display:block;font-weight:500}
 
 /* stats strip */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;padding:50px 0}
+.stats{display:flex;justify-content:center;gap:clamp(36px,10vw,90px);text-align:center;padding:40px 0}
 .stat-num{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,5vw,42px);font-weight:600;color:var(--gold);line-height:1}
 .stat-label{color:var(--mute);font-size:13px;margin-top:6px}
 
@@ -271,9 +271,7 @@ footer .ic{width:16px;height:16px}
 <div><span class="num">3</span><div class="badge"><svg class="ic"><use href="#i-eye"/></svg></div><h4>Preview &amp; order</h4><p>See the exact pendant length before you order.</p></div></div></section>
 
 <div class="stats" id="ph-stats">
-<div><div class="stat-num">5,000+</div><div class="stat-label">Pendants crafted</div></div>
-<div><div class="stat-num">48</div><div class="stat-label">Countries shipped to</div></div>
-<div><div class="stat-num">4.9★</div><div class="stat-label">Average rating</div></div>
+<div><div class="stat-num">100+</div><div class="stat-label">Pendants crafted</div></div>
 <div><div class="stat-num">100%</div><div class="stat-label">Handmade</div></div>
 </div>
 
@@ -300,13 +298,6 @@ footer .ic{width:16px;height:16px}
 </div>
 </section>
 
-<section>
-<div class="newsletter">
-<h3>Stay in the loop</h3>
-<p>Get notified about new designs, limited editions, and exclusive offers.</p>
-<div class="nl-form"><input type="text" placeholder="Your email address" aria-label="Email address"><button class="gold" onclick="toast('Thanks! You\'re subscribed.')">Subscribe</button></div>
-</div>
-</section>
 </div>
 <div class="view" id="v-create">
 <section id="create"><h2>Create your cartouche</h2><p class="sub">Build it step by step</p><div id="builder"></div></section>
