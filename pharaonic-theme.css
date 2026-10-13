@@ -650,14 +650,22 @@ html.ph {
 }
 
 .ph .popular-item .pop-glyph {
-  color: var(--gold-hi);
-  text-shadow: 0 1px 0 #5a430c, 0 2px 5px rgba(0, 0, 0, .7);
+  color: #F5DF88;
+  font-size: clamp(22px, 3.2vw, 28px);
+  line-height: 1.25;
+  text-shadow: 0 1px 0 #543d08, 0 2px 6px rgba(0, 0, 0, .8), 0 0 12px rgba(245, 223, 136, .35);
 }
 
 .ph .popular-item .pop-name {
-  color: var(--sand);
+  font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+  color: #FAF4E4;
+  font-size: 16px;
   font-weight: 600;
-  letter-spacing: .02em;
+  letter-spacing: .06em;
+}
+
+.ph .popular-item:hover .pop-name {
+  color: #FFFFFF;
 }
 
 .ph details.faq summary {

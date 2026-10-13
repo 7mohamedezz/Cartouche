@@ -822,7 +822,7 @@
     /* popular gallery */
     .popular-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
       gap: 14px
     }
 
@@ -830,9 +830,10 @@
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 18px 10px;
+      padding: 20px 10px;
       text-align: center;
       cursor: pointer;
+      overflow: hidden;
       transition: border-color .25s, transform .25s var(--ease)
     }
 
@@ -845,15 +846,28 @@
 
     .popular-item .pop-glyph {
       font-family: 'Noto Sans Egyptian Hieroglyphs', serif;
-      font-size: 24px;
+      font-size: clamp(22px, 3.2vw, 28px);
+      line-height: 1.25;
       color: var(--gold);
-      letter-spacing: .05em;
-      margin-bottom: 8px
+      letter-spacing: .04em;
+      margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
+      display: block;
+      width: 100%
     }
 
     .popular-item .pop-name {
-      font-size: 14px;
-      font-weight: 500
+      font-family: 'Cormorant Garamond', 'Cinzel', Georgia, serif;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      width: 100%
     }
 
     /* FAQ */
@@ -1906,7 +1920,7 @@
       if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.opt,.step.done')) { e.preventDefault(); e.target.click() }
     });
     /* popular names gallery */
-    const POP_NAMES = ['Ahmed', 'Nour', 'Sara', 'Omar', 'Layla', 'Ali', 'Yasmin', 'Khaled', 'Maya', 'Adam', 'Salma', 'Tarek'];
+    const POP_NAMES = ['Ahmed', 'Nour', 'Sara', 'Omar', 'Layla', 'Ali', 'Yasmin', 'James', 'Maya', 'Adam', 'Salma', 'Tarek'];
     function drawPopular() {
       const g = E('pop-grid'); if (!g) return;
       g.innerHTML = POP_NAMES.map(n => {
