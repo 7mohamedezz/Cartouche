@@ -1,10 +1,10 @@
-# My Cartouche
+# Cartouche
 
 Your name, in hieroglyphs — handcrafted Egyptian cartouche pendant customizer.
 
 ## About
 
-**My Cartouche** is an interactive web app that lets users create personalized Egyptian cartouche pendants. Type your name, and the app translates each letter into its hieroglyphic equivalent, rendering a preview of a pendant in gold or silver.
+**Cartouche** is an interactive web app that lets users create personalized Egyptian cartouche pendants. Type your name, and the app translates each letter into its hieroglyphic equivalent, rendering a preview of a pendant in gold or silver.
 
 ### Features
 
