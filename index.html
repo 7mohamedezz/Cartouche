@@ -1499,7 +1499,7 @@
             <h1>Your name,<br>in <em>hieroglyphs</em></h1>
             <p>Handcrafted Egyptian cartouche pendants in gold and silver. Type your name and watch the pendant grow to
               fit it.</p>
-            <div class="try"><input type="text" id="hn" maxlength="10" placeholder="Try your name…"
+            <div class="try"><input type="text" id="hn" maxlength="8" pattern="[A-Za-z]{1,8}" placeholder="Try your name…"
                 aria-label="Try your name" autocomplete="off" autocapitalize="words" enterkeyhint="go"><button
                 class="gold" onclick="start()">Customize<svg class="ic">
                   <use href="#i-arrow" />
@@ -1840,7 +1840,10 @@
   <script>
     ['gold', 'silver'].forEach(f => I[f].forEach((u, j) => document.documentElement.style.setProperty(`--${f[0]}${j}`, `url(${u})`)));
     const MAP = { A: 0x1313F, B: 0x130C0, C: 0x133A1, D: 0x130A7, E: 0x131CB, F: 0x13191, G: 0x133BC, H: 0x13254, I: 0x131CB, J: 0x13193, K: 0x133A1, L: 0x130ED, M: 0x13153, N: 0x13216, O: 0x13171, P: 0x132AA, Q: 0x1320E, R: 0x1308B, S: 0x132F4, T: 0x133CF, U: 0x13171, V: 0x13191, W: 0x13171, X: 0x132F4, Y: 0x131CC, Z: 0x13283 };
-    const toGl = n => [...n.toUpperCase()].filter(c => MAP[c]).map(c => String.fromCodePoint(MAP[c]));
+    const MAX_NAME_LENGTH = 8;
+    const normalizeName = value => String(value || '').replace(/[^A-Za-z]/g, '').slice(0, MAX_NAME_LENGTH);
+    const isValidName = value => /^[A-Za-z]{1,8}$/.test(value);
+    const toGl = n => [...normalizeName(n).toUpperCase()].map(c => String.fromCodePoint(MAP[c]));
     const DES = [{ n: 'Design 01', d: 'Classic', gap: 30, cap: 1.2, mw: 150, mh: 175 }, { n: 'Design 02', d: 'Spaced', gap: 60, cap: 1.2, mw: 150, mh: 175 }, { n: 'Design 03', d: 'Bold', gap: 30, cap: 1.45, mw: 180, mh: 205 }];
     const FIN = [{ n: 'Gold', k: 'g', b: 160, p: 20 }, { n: 'Silver', k: 's', b: 70, p: 10 }];
     const S = { step: 1, name: '', design: 0, fin: 0, items: [] };
@@ -1873,7 +1876,12 @@
       try { if ('#/' + v !== location.hash) history.replaceState(null, '', '#/' + v) } catch (_) { }
       window.scrollTo(0, 0)
     }
-    function start() { S.step = S.name ? 2 : 1; render(); showView('create') }
+    function start() {
+      S.name = normalizeName(E('hn').value);
+      S.step = isValidName(S.name) ? 2 : 1;
+      render();
+      showView('create')
+    }
     function stepper() {
       return '<div class="steps" role="list">' + ['Name', 'Design', 'Finish', 'Preview'].map((l, i) => {
         const done = i + 1 < S.step, cur = i + 1 === S.step;
@@ -1884,19 +1892,21 @@
     const tick = on => on ? `<i class="tick">${ic('check')}</i>` : '';
     function render() {
       const g = toGl(S.name), m = demo(); let b = '';
-      if (S.step == 1) b = `<div class="card" style="max-width:560px;margin:auto"><input type="text" id="nm" maxlength="10" placeholder="Your name" aria-label="Your name" value="${S.name}" autocomplete="off" autocapitalize="words" enterkeyhint="next"><div class="glyphline tap" id="gl" title="Tap to continue" aria-live="polite">${g.join('')}</div><p class="sub" style="margin:10px 0 0">Use English letters, up to 10.</p><div style="margin-top:16px;display:flex"><button class="gold" id="nx" style="flex:1" ${g.length ? '' : 'disabled'} onclick="S.step=2;render()">See designs${ic('arrow')}</button></div></div>${nav(0)}`;
+      S.name = normalizeName(S.name);
+      if (S.step > 1 && !isValidName(S.name)) S.step = 1;
+      if (S.step == 1) b = `<div class="card" style="max-width:560px;margin:auto"><input type="text" id="nm" maxlength="8" pattern="[A-Za-z]{1,8}" placeholder="Your name" aria-label="Your name" value="${S.name}" autocomplete="off" autocapitalize="words" enterkeyhint="next"><div class="glyphline tap" id="gl" title="Tap to continue" aria-live="polite">${g.join('')}</div><p class="sub" style="margin:10px 0 0">Use English letters, up to 8.</p><div style="margin-top:16px;display:flex"><button class="gold" id="nx" style="flex:1" ${isValidName(S.name) ? '' : 'disabled'} onclick="if(isValidName(S.name)){S.step=2;render()}">See designs${ic('arrow')}</button></div></div>${nav(0)}`;
       if (S.step == 2) b = `<p class="hint">Tap a design to continue</p><div class="grid">${DES.map((d, i) => `<div class="opt ${S.design == i ? 'sel' : ''}" role="button" tabindex="0" aria-label="${d.n}, ${d.d}" onclick="S.design=${i};S.step=3;render()">${tick(S.design == i)}<div class="mini">${pend(m, S.fin, i, .11)}</div><h4>${d.n}</h4><p>${d.d}</p></div>`).join('')}</div>${nav(1)}`;
       if (S.step == 3) b = `<p class="hint">Tap a finish to see your preview</p><div class="grid">${FIN.map((f, i) => `<div class="opt ${S.fin == i ? 'sel' : ''}" role="button" tabindex="0" aria-label="${f.n} cartouche, $${price(i, m.length)}" onclick="S.fin=${i};S.step=4;render()">${tick(S.fin == i)}<div class="mini">${pend(m, i, S.design, .11)}</div><h4>${f.n} Cartouche</h4><p>$${price(i, m.length)}</p></div>`).join('')}</div>${nav(2)}`;
       if (S.step == 4) b = `<div class="prev"><div class="stage">${pend(g, S.fin, S.design, .34)}</div><div><div class="rows"><div class="row">Name<b>${S.name}</b></div><div class="row">Glyphs<b>${g.length}</b></div><div class="row">Design<b>${DES[S.design].n} · ${DES[S.design].d}</b></div><div class="row">Finish<b>${FIN[S.fin].n} Cartouche</b></div><div class="row">Approx. size<b>${cm(g, S.design)} cm</b></div><div class="row tot">Price<b>$${price(S.fin, g.length)}</b></div></div>${nav(3, `<button class="gold" onclick="add()">${ic('bag')}Add to cart</button>`)}</div></div>`;
       $('builder', stepper() + `<div class="fade">${b}</div>`);
       const nm = E('nm');
-      if (nm) { nm.oninput = e => { S.name = e.target.value; const v = S.name.replace(/[^A-Za-z ]/g, ''); if (v !== S.name) { S.name = v; e.target.value = v } const ok = toGl(S.name).length; E('gl').textContent = toGl(S.name).join(''); const nx = E('nx'); if (nx) nx.disabled = !ok; const hn = E('hn'); if (hn) hn.value = S.name; hero() }; nm.onkeydown = e => { if (e.key === 'Enter' && toGl(S.name).length) { S.step = 2; render() } }; const gl = E('gl'); if (gl) gl.onclick = () => { if (toGl(S.name).length) { S.step = 2; render() } }; setTimeout(() => { if (document.activeElement !== nm && S.step === 1 && matchMedia('(hover:hover)').matches) nm.focus() }, 50) }
+      if (nm) { nm.oninput = e => { S.name = normalizeName(e.target.value); e.target.value = S.name; const ok = isValidName(S.name); E('gl').textContent = toGl(S.name).join(''); const nx = E('nx'); if (nx) nx.disabled = !ok; const hn = E('hn'); hn.value = S.name; hero() }; nm.onkeydown = e => { if (e.key === 'Enter' && isValidName(S.name)) { S.step = 2; render() } }; const gl = E('gl'); if (gl) gl.onclick = () => { if (isValidName(S.name)) { S.step = 2; render() } }; setTimeout(() => { if (document.activeElement !== nm && S.step === 1 && matchMedia('(hover:hover)').matches) nm.focus() }, 50) }
       hero();
     }
-    E('hn').oninput = e => { S.name = e.target.value.replace(/[^A-Za-z ]/g, ''); hero(); if (S.step === 1 && E('nm')) { E('nm').value = S.name; if (E('gl')) E('gl').textContent = toGl(S.name).join(''); if (E('nx')) E('nx').disabled = !toGl(S.name).length } };
+    E('hn').oninput = e => { S.name = normalizeName(e.target.value); e.target.value = S.name; hero(); if (S.step === 1 && E('nm')) { E('nm').value = S.name; if (E('gl')) E('gl').textContent = toGl(S.name).join(''); if (E('nx')) E('nx').disabled = !isValidName(S.name) } };
     E('hn').onkeydown = e => { if (e.key === 'Enter') start() };
     const drawDG = () => $('dg', DES.map((d, i) => `<div class="opt" role="button" tabindex="0" aria-label="${d.n}, ${d.d}" onclick="S.design=${i};S.fin=${i == 1 ? 1 : 0};S.step=S.name?3:1;render();showView('create')"><div class="mini">${pend(toGl('Ahmed'), i == 1 ? 1 : 0, i, .11)}</div><h4>${d.n}</h4><p>${d.d}</p></div>`).join(''));
-    function add() { const g = toGl(S.name); S.items.push({ name: S.name, g, d: S.design, f: S.fin, p: price(S.fin, g.length) }); cart(); drawer(1) }
+    function add() { S.name = normalizeName(S.name); if (!isValidName(S.name)) { toast('Enter a name of 1 to 8 letters.'); return } const g = toGl(S.name); S.items.push({ name: S.name, g, d: S.design, f: S.fin, p: price(S.fin, g.length) }); cart(); drawer(1) }
     let lastN = 0;
     function cart() {
       const c = E('cc'), n = S.items.length; c.textContent = n; c.style.display = n ? 'block' : 'none';

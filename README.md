@@ -48,7 +48,7 @@ npx serve .
 
 ## How It Works
 
-1. **Write your name** — enter up to 10 characters; the app maps each letter to a Unicode Egyptian hieroglyph
+1. **Write your name** — enter 1 to 8 English letters; the app maps each letter to a Unicode Egyptian hieroglyph
 2. **Pick design & metal** — choose an engraving style and select gold or silver
 3. **Preview & order** — see the exact pendant with accurate length scaling, then add to cart
 
